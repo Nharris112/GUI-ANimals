@@ -2,8 +2,13 @@ import java.util.Scanner;
 
 public class AnimalCounterConsole {
 
-    private int alligatorCount = 0;
-    private int sheepCount = 0;
+    private Alligator alligator; // Instance for Alligator
+    private Sheep sheep;        // Instance for Sheep
+
+    public AnimalCounterConsole() {
+        alligator = new Alligator();
+        sheep = new Sheep();
+    }
 
     public static void main(String[] args) {
         AnimalCounterConsole counter = new AnimalCounterConsole();
@@ -28,10 +33,10 @@ public class AnimalCounterConsole {
 
             switch (choice) {
                 case "1":
-                    addAlligator();
+                    alligator.incrementCount();
                     break;
                 case "2":
-                    addSheep();
+                    sheep.incrementCount();
                     break;
                 case "3":
                     displayCounts();
@@ -50,20 +55,10 @@ public class AnimalCounterConsole {
         scanner.close();
     }
 
-    private void addAlligator() {
-        alligatorCount++;
-        System.out.println("Alligator added! Total Alligators: " + alligatorCount);
-    }
-
-    private void addSheep() {
-        sheepCount += 2;
-        System.out.println("Sheep added! Total Sheep: " + sheepCount);
-    }
-
     private void displayCounts() {
         System.out.println("Current Counts:");
-        System.out.println("Alligators: " + alligatorCount);
-        System.out.println("Sheep: " + sheepCount);
+        System.out.println("Alligators: " + alligator.getCount());
+        System.out.println("Sheep: " + sheep.getCount());
     }
 
     private void resetCounts(Scanner scanner) {
@@ -75,11 +70,11 @@ public class AnimalCounterConsole {
 
         switch (choice) {
             case "1":
-                alligatorCount = 0;
+                alligator.resetCount();
                 System.out.println("Alligator count reset to 0.");
                 break;
             case "2":
-                sheepCount = 0;
+                sheep.resetCount();
                 System.out.println("Sheep count reset to 0.");
                 break;
             default:
