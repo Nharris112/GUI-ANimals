@@ -3,6 +3,5 @@ public class Alligator extends Animal {
     @Override
     public void incrementCount() {
         count++;
-        System.out.println("Alligator added! Total Alligators: " + count);
     }
 }
