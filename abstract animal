@@ -10,7 +10,7 @@ public abstract class Animal {
     }
 
     public int getCount() {
-        return count;
+        return this.count;
     }
 
     public abstract void incrementCount();
