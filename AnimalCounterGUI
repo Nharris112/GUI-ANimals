@@ -1,0 +1,91 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class AnimalCounterGUI extends JFrame {
+    private JLabel welcomeLabel, alligatorCountLabel, sheepCountLabel;
+    private JButton addAlligatorButton, addSheepButton, displayCountsButton, resetCountsButton, exitButton;
+    private JRadioButton alligatorRadio, sheepRadio;
+    private ButtonGroup resetGroup;
+    private Alligator alligator;
+    private Sheep sheep;
+
+    public AnimalCounterGUI() {
+        alligator = new Alligator();
+        sheep = new Sheep();
+
+        setTitle("Animal Counter");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new GridLayout(6, 1));
+
+        welcomeLabel = new JLabel("Welcome to Animal Counter!", SwingConstants.CENTER);
+        add(welcomeLabel);
+
+        alligatorCountLabel = new JLabel("Alligator Count: 0", SwingConstants.CENTER);
+        sheepCountLabel = new JLabel("Sheep Count: 0", SwingConstants.CENTER);
+        add(alligatorCountLabel);
+        add(sheepCountLabel);
+
+        addAlligatorButton = new JButton("Add Alligator");
+        addSheepButton = new JButton("Add Sheep");
+        displayCountsButton = new JButton("Display Counts");
+        resetCountsButton = new JButton("Reset Counts");
+        exitButton = new JButton("Exit");
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(addAlligatorButton);
+        buttonPanel.add(addSheepButton);
+        add(buttonPanel);
+
+        JPanel actionPanel = new JPanel();
+        actionPanel.add(displayCountsButton);
+        actionPanel.add(resetCountsButton);
+        actionPanel.add(exitButton);
+        add(actionPanel);
+
+        alligatorRadio = new JRadioButton("Alligator");
+        sheepRadio = new JRadioButton("Sheep");
+        resetGroup = new ButtonGroup();
+        resetGroup.add(alligatorRadio);
+        resetGroup.add(sheepRadio);
+        JPanel radioPanel = new JPanel();
+        radioPanel.add(alligatorRadio);
+        radioPanel.add(sheepRadio);
+        add(radioPanel);
+
+        addAlligatorButton.addActionListener(new ButtonHandler());
+        addSheepButton.addActionListener(new ButtonHandler());
+        displayCountsButton.addActionListener(new ButtonHandler());
+        resetCountsButton.addActionListener(new ButtonHandler());
+        exitButton.addActionListener(new ButtonHandler());
+    }
+
+    private class ButtonHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == addAlligatorButton) {
+                alligator.incrementCount();
+                alligatorCountLabel.setText("Alligator Count: " + alligator.getCount());
+            } else if (e.getSource() == addSheepButton) {
+                sheep.incrementCount();
+                sheepCountLabel.setText("Sheep Count: " + sheep.getCount());
+            } else if (e.getSource() == displayCountsButton) {
+                JOptionPane.showMessageDialog(null, "Alligator Count: " + alligator.getCount() + "\nSheep Count: " + sheep.getCount());
+            } else if (e.getSource() == resetCountsButton) {
+                if (alligatorRadio.isSelected()) {
+                    alligator.resetCount();
+                    alligatorCountLabel.setText("Alligator Count: 0");
+                } else if (sheepRadio.isSelected()) {
+                    sheep.resetCount();
+                    sheepCountLabel.setText("Sheep Count: 0");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please select an animal to reset.");
+                }
+            } else if (e.getSource() == exitButton) {
+                System.exit(0);
+            }
+        }
+    }
+}
