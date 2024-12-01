@@ -3,6 +3,5 @@ public class Sheep extends Animal {
     @Override
     public void incrementCount() {
         count += 2;
-        System.out.println("Sheep added! Total Sheep: " + count);
     }
 }
