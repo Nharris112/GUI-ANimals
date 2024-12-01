@@ -1,11 +1,8 @@
-public class Sheep extends Animal implements Countable {
-    public Sheep() {
-        super();
-    }
+public class Sheep extends Animal {
 
     @Override
     public void incrementCount() {
         count += 2;
-        System.out.println("Sheep count incremented by 2. Total Sheep: " + count);
+        System.out.println("Sheep added! Total Sheep: " + count);
     }
 }
