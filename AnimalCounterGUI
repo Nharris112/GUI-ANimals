@@ -1,84 +1,99 @@
-import java.util.Scanner;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class AnimalCounterConsole {
+public class AnimalCounterGUI extends JFrame {
+
+    private JLabel alligatorCountLabel;
+    private JLabel sheepCountLabel;
+    private JButton addAlligatorButton, addSheepButton, displayCountsButton, resetCountsButton, exitButton;
+    private JRadioButton alligatorRadio, sheepRadio;
+    private ButtonGroup resetGroup;
 
     private Alligator alligator;
     private Sheep sheep;
 
-    public AnimalCounterConsole() {
+    public AnimalCounterGUI() {
         alligator = new Alligator();
         sheep = new Sheep();
+
+        setTitle("Animal Counter");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new GridLayout(6, 1));
+
+        JLabel welcomeLabel = new JLabel("Welcome to Animal Counter!", SwingConstants.CENTER);
+        add(welcomeLabel);
+
+        alligatorCountLabel = new JLabel("Alligator Count: 0", SwingConstants.CENTER);
+        sheepCountLabel = new JLabel("Sheep Count: 0", SwingConstants.CENTER);
+        add(alligatorCountLabel);
+        add(sheepCountLabel);
+
+        JPanel addPanel = new JPanel();
+        addAlligatorButton = new JButton("Add Alligator");
+        addSheepButton = new JButton("Add Sheep");
+        addPanel.add(addAlligatorButton);
+        addPanel.add(addSheepButton);
+        add(addPanel);
+
+        JPanel actionPanel = new JPanel();
+        displayCountsButton = new JButton("Display Counts");
+        resetCountsButton = new JButton("Reset Counts");
+        actionPanel.add(displayCountsButton);
+        actionPanel.add(resetCountsButton);
+        add(actionPanel);
+
+        JPanel resetPanel = new JPanel();
+        alligatorRadio = new JRadioButton("Alligator");
+        sheepRadio = new JRadioButton("Sheep");
+        resetGroup = new ButtonGroup();
+        resetGroup.add(alligatorRadio);
+        resetGroup.add(sheepRadio);
+        resetPanel.add(alligatorRadio);
+        resetPanel.add(sheepRadio);
+        add(resetPanel);
+
+        exitButton = new JButton("Exit");
+        add(exitButton);
+
+        addAlligatorButton.addActionListener(new ButtonHandler());
+        addSheepButton.addActionListener(new ButtonHandler());
+        displayCountsButton.addActionListener(new ButtonHandler());
+        resetCountsButton.addActionListener(new ButtonHandler());
+        exitButton.addActionListener(new ButtonHandler());
+    }
+
+    private class ButtonHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == addAlligatorButton) {
+                alligator.incrementCount();
+                alligatorCountLabel.setText("Alligator Count: " + alligator.getCount());
+            } else if (e.getSource() == addSheepButton) {
+                sheep.incrementCount();
+                sheepCountLabel.setText("Sheep Count: " + sheep.getCount());
+            } else if (e.getSource() == displayCountsButton) {
+                JOptionPane.showMessageDialog(null, "Alligator Count: " + alligator.getCount() + "\nSheep Count: " + sheep.getCount());
+            } else if (e.getSource() == resetCountsButton) {
+                if (alligatorRadio.isSelected()) {
+                    alligator.resetCount();
+                    alligatorCountLabel.setText("Alligator Count: 0");
+                } else if (sheepRadio.isSelected()) {
+                    sheep.resetCount();
+                    sheepCountLabel.setText("Sheep Count: 0");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Please select an animal to reset.");
+                }
+            } else if (e.getSource() == exitButton) {
+                System.exit(0);
+            }
+        }
     }
 
     public static void main(String[] args) {
-        AnimalCounterConsole counter = new AnimalCounterConsole();
-        counter.run();
-    }
-
-    public void run() {
-        Scanner scanner = new Scanner(System.in);
-        String choice;
-
-        System.out.println("Welcome to the Animal Counter!");
-
-        do {
-            System.out.println("\nMenu:");
-            System.out.println("1. Add Alligator");
-            System.out.println("2. Add Sheep");
-            System.out.println("3. Display Counts");
-            System.out.println("4. Reset Counts");
-            System.out.println("5. Exit");
-            System.out.print("Choose an option: ");
-            choice = scanner.nextLine();
-
-            switch (choice) {
-                case "1":
-                    alligator.incrementCount();
-                    break;
-                case "2":
-                    sheep.incrementCount();
-                    break;
-                case "3":
-                    displayCounts();
-                    break;
-                case "4":
-                    resetCounts(scanner);
-                    break;
-                case "5":
-                    System.out.println("Exiting... Goodbye!");
-                    break;
-                default:
-                    System.out.println("Invalid choice! Please try again.");
-            }
-        } while (!choice.equals("5"));
-
-        scanner.close();
-    }
-
-    private void displayCounts() {
-        System.out.println("Current Counts:");
-        System.out.println("Alligators: " + alligator.getCount());
-        System.out.println("Sheep: " + sheep.getCount());
-    }
-
-    private void resetCounts(Scanner scanner) {
-        System.out.println("Reset Counts:");
-        System.out.println("1. Reset Alligator Count");
-        System.out.println("2. Reset Sheep Count");
-        System.out.print("Choose an option: ");
-        String choice = scanner.nextLine();
-
-        switch (choice) {
-            case "1":
-                alligator.resetCount();
-                System.out.println("Alligator count reset to 0.");
-                break;
-            case "2":
-                sheep.resetCount();
-                System.out.println("Sheep count reset to 0.");
-                break;
-            default:
-                System.out.println("Invalid choice! No counts were reset.");
-        }
+        AnimalCounterGUI gui = new AnimalCounterGUI();
+        gui.setVisible(true);
     }
 }
