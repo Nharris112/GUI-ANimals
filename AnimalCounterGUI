@@ -2,8 +2,8 @@ import java.util.Scanner;
 
 public class AnimalCounterConsole {
 
-    private Alligator alligator; // Instance for Alligator
-    private Sheep sheep;        // Instance for Sheep
+    private Alligator alligator;
+    private Sheep sheep;
 
     public AnimalCounterConsole() {
         alligator = new Alligator();
